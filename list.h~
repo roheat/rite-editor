@@ -1,0 +1,66 @@
+/* Doubly Linked List implementation */
+
+#ifndef __LIST_H
+#define __LIST_H
+
+typedef struct Node  {
+	char* data;
+	struct Node* next;
+	struct Node* prev;
+}Node;
+
+struct Node* head = NULL, *tail, *curr; 
+
+//Creates a new Node and returns pointer to it. 
+struct Node* GetNewNode(char *x) {
+	struct Node* newNode
+		= (struct Node*)malloc(sizeof(struct Node));
+	newNode->data = (char *)malloc(strlen(x) + 1);
+	strcpy(newNode->data, x);
+	newNode->prev = NULL;
+	newNode->next = NULL;
+	return newNode;
+}
+
+//Inserts a Node at tail of Doubly linked list
+void InsertAtTail(char *x) {
+	struct Node* temp = head;
+	struct Node* newNode = GetNewNode(x);
+	if(head == NULL) {
+		head = newNode;
+		tail = head;
+		curr = tail;
+		return;
+	}
+	
+	tail->next = newNode;
+	newNode->prev = tail;
+	tail = newNode;
+}
+
+//Prints all the elements in linked list in forward traversal order
+void Print() {
+	struct Node* temp = head;
+	
+	while(temp != NULL) {
+		printf("%s ",temp->data);
+		temp = temp->next;
+	}
+	printf("\n");
+}
+
+void Delete() {
+	struct Node* temp;
+	
+	while(head != NULL) {
+		temp = head;
+		head = head->next;
+		
+		free(temp->data);
+		free(temp);
+		
+	}
+	
+}
+
+#endif
